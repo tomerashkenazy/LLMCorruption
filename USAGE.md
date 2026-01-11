@@ -8,9 +8,21 @@ This repository implements GCG (Greedy Coordinate Gradient) based optimization f
 pip install -r requirements.txt
 ```
 
+## Quick Start
+
+For a quick demo without needing a large model or GPU:
+```bash
+python demo_small_model.py
+```
+
+For the original problem statement example:
+```bash
+python example_from_problem.py
+```
+
 ## Scripts
 
-### 1. `gcg_optimizer_continuous.py` (Recommended)
+### 1. `gcg_optimizer_continuous.py` (Recommended - Production)
 Uses continuous optimization with Adam optimizer. This is the primary implementation that directly addresses the problem statement.
 
 **Features:**
@@ -72,6 +84,34 @@ python gcg_entropy_optimizer.py \
 - `--k-candidates`: Number of top-k candidate tokens to consider (default: 256)
 - `--batch-size`: Batch size for evaluating candidate swaps (default: 32)
 - `--device`: Device to run on
+
+### 3. `demo_small_model.py` (Quick Demo)
+Lightweight demonstration using GPT-2 that can run on CPU.
+
+**Usage:**
+```bash
+python demo_small_model.py
+```
+
+**Features:**
+- Uses small model (GPT-2) for quick testing
+- Runs on CPU
+- Shows the full optimization process
+- Perfect for understanding the concept
+
+### 4. `example_from_problem.py` (Problem Statement Example)
+Direct implementation of the code from the problem statement with optimizer added.
+
+**Usage:**
+```bash
+python example_from_problem.py
+```
+
+**Features:**
+- Follows the original problem statement structure
+- Uses Adam optimizer as requested
+- Includes continuous embedding optimization
+- Periodic projection to discrete tokens
 
 ## How It Works
 
