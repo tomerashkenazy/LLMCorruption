@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Example Script: Generate Token Mines
 
@@ -20,6 +19,9 @@ from llm_corruption.utils import (
     format_results_table,
     create_output_directory
 )
+
+# Configuration constants
+DEFAULT_NUM_TEST_PROMPTS = 3  # Number of test prompts to use when none specified
 
 
 def load_model(model_name: str, device: str):
@@ -96,6 +98,12 @@ def main():
         action="store_true",
         help="Test generation with the token mine"
     )
+    parser.add_argument(
+        "--num-test-prompts",
+        type=int,
+        default=DEFAULT_NUM_TEST_PROMPTS,
+        help=f"Number of test prompts to use (default: {DEFAULT_NUM_TEST_PROMPTS})"
+    )
     
     args = parser.parse_args()
     
@@ -128,7 +136,9 @@ def main():
     if args.prompt:
         prompts = [args.prompt]
     else:
-        prompts = TEST_PROMPTS[:3]  # Use first 3 test prompts
+        # Use configurable number of test prompts
+        num_prompts = min(args.num_test_prompts, len(TEST_PROMPTS))
+        prompts = TEST_PROMPTS[:num_prompts]
     
     # Generate Token Mines
     results = []

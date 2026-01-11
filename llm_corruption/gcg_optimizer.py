@@ -227,6 +227,8 @@ class GCGOptimizer:
             top_candidates = self.get_top_candidates(gradients, constraint_mask)
             
             # Try each position and find best substitution
+            # Note: We want to minimize the loss value (which is negative chaos)
+            # Lower loss value = higher chaos = more State Collapse
             best_loss = float('inf')
             best_position = None
             best_token = None
@@ -237,7 +239,8 @@ class GCGOptimizer:
                 candidates = top_candidates[i]
                 losses, _ = self.evaluate_candidates(input_ids, pos.item(), candidates)
                 
-                # Find best candidate (minimum loss = maximum chaos)
+                # Find best candidate (minimum loss value = maximum chaos)
+                # The loss function returns negative values, so minimum = most chaotic
                 min_loss_idx = losses.argmin()
                 min_loss = losses[min_loss_idx]
                 

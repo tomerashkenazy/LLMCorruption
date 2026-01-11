@@ -82,15 +82,17 @@ class ChaosLoss:
         """
         Compute Chaos Loss.
         
-        The loss is designed to be MAXIMIZED (not minimized), so we return
-        the negative of the chaos metric for use with standard optimizers.
+        This loss is designed to be MINIMIZED by standard optimizers, but represents
+        NEGATIVE chaos (lower value = more chaos). We return negative values so that:
+        - Minimizing this loss maximizes chaos
+        - Lower loss value = higher entropy = more State Collapse
         
         Args:
             logits: Model output logits [batch_size, seq_len, vocab_size]
             targets: Optional target tokens (unused for chaos loss)
         
         Returns:
-            Chaos loss value (to be maximized)
+            Negative chaos metric (minimize to maximize chaos)
         """
         # Handle 3D logits (batch, seq_len, vocab_size)
         if logits.dim() == 3:
@@ -99,16 +101,18 @@ class ChaosLoss:
         else:
             logits_flat = logits
         
-        # Compute entropy (we want to maximize this)
+        # Compute entropy (higher is more chaotic)
         entropy = self.compute_entropy(logits_flat)
-        entropy_loss = -self.entropy_weight * entropy.mean()  # Negative for maximization
+        # Return negative so minimizing loss maximizes entropy
+        negative_entropy = -self.entropy_weight * entropy.mean()
         
-        # Compute variance (we want to maximize this too)
+        # Compute variance (higher is more chaotic)
         variance = self.compute_variance(logits_flat)
-        variance_loss = -self.variance_weight * variance.mean()  # Negative for maximization
+        # Return negative so minimizing loss maximizes variance
+        negative_variance = -self.variance_weight * variance.mean()
         
-        # Total chaos loss (lower value = more chaos)
-        total_loss = entropy_loss + variance_loss
+        # Total chaos loss (negative values, minimize to maximize chaos)
+        total_loss = negative_entropy + negative_variance
         
         return total_loss
     

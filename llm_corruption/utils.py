@@ -9,6 +9,18 @@ import json
 from typing import Dict, List, Any
 from pathlib import Path
 
+# Import stealth characters for consistency
+try:
+    from .stealth_constraint import StealthConstraint
+    # Use class attributes for invisible character definitions
+    INVISIBLE_CHARS_REF = StealthConstraint.INVISIBLE_CHARS
+except ImportError:
+    # Fallback if import fails during standalone usage
+    INVISIBLE_CHARS_REF = [
+        '\u200B', '\u200C', '\u200D', '\u2060', '\uFEFF',
+        '\u180E', '\u00AD', '\u034F', '\u061C'
+    ]
+
 
 def save_results(results: Dict[str, Any], output_path: str):
     """
@@ -84,14 +96,10 @@ def count_invisible_chars(text: str) -> int:
     Returns:
         Number of invisible characters
     """
-    invisible_chars = [
-        '\u200B', '\u200C', '\u200D', '\u2060', '\uFEFF',
-        '\u180E', '\u00AD', '\u034F', '\u061C'
-    ]
-    
+    # Use the imported reference for consistency
     count = 0
     for char in text:
-        if char in invisible_chars:
+        if char in INVISIBLE_CHARS_REF:
             count += 1
     
     return count

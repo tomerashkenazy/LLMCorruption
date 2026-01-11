@@ -81,6 +81,10 @@ class StealthConstraint:
         """
         Map stealth characters to their token IDs.
         
+        Note: We also try tokenizing with surrounding spaces as some tokenizers
+        may produce different tokens based on context. This increases coverage
+        but may affect stealthiness in edge cases.
+        
         Returns:
             Set of token IDs corresponding to stealth characters
         """
@@ -88,11 +92,12 @@ class StealthConstraint:
         
         for char in self.stealth_chars:
             try:
-                # Tokenize the character
+                # Tokenize the character alone
                 tokens = self.tokenizer.encode(char, add_special_tokens=False)
                 token_ids.update(tokens)
                 
-                # Also try with spaces around it
+                # Also try with spaces (may tokenize differently)
+                # This is intentional to maximize coverage across tokenizers
                 tokens_space = self.tokenizer.encode(f" {char} ", add_special_tokens=False)
                 token_ids.update(tokens_space)
             except Exception:

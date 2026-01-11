@@ -84,8 +84,10 @@ def check_content():
         from llm_corruption.utils import visualize_unicode, analyze_text_stealthiness
         print(f"  ✓ Utility functions defined")
         
-        # Test utility function
-        result = visualize_unicode("\u200B\u200CHello")
+        # Test utility function with invisible Unicode
+        from llm_corruption.stealth_constraint import StealthConstraint
+        test_char = StealthConstraint.INVISIBLE_CHARS[0]  # Use from source of truth
+        result = visualize_unicode(f"{test_char}Hello")
         print(f"  ✓ visualize_unicode working: '{result}'")
         
         print("\n✓ Content check PASSED")
