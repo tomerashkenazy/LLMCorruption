@@ -13,6 +13,10 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 def main():
+    # Token range constants
+    MIN_SAFE_TOKEN_ID = 1000
+    MAX_SAFE_TOKEN_ID = 10000
+    
     # 1. SETUP: Load the Proxy (White Box)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
@@ -41,8 +45,8 @@ def main():
     # Initialize with random tokens (or use rare tokens from paper to speed up)
     # ID 128000+ are often special/reserved in Llama-3 which makes them volatile
     current_mine_ids = torch.randint(
-        low=1000, 
-        high=min(vocab_size, 10000),  # Avoid special tokens at the end
+        low=MIN_SAFE_TOKEN_ID, 
+        high=min(vocab_size, MAX_SAFE_TOKEN_ID),  # Avoid special tokens at the end
         size=(mine_len,), 
         device=device
     )

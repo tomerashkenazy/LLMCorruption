@@ -57,6 +57,9 @@ def gcg_entropy_maximization(
     best_mine_ids = current_mine_ids.clone()
     best_entropy = float('-inf')
     
+    # Get embedding weights once (model is frozen, so they don't change)
+    embed_weights = model.get_input_embeddings().weight
+    
     # 3. OPTIMIZATION LOOP
     for step in range(num_steps):
         # Get embeddings for current mine
@@ -85,7 +88,6 @@ def gcg_entropy_maximization(
         # which token substitutions would increase entropy
         
         # Enable gradient computation
-        embed_weights = model.get_input_embeddings().weight
         one_hot = F.one_hot(current_mine_ids, num_classes=vocab_size).float()
         one_hot.requires_grad = True
         
@@ -111,12 +113,14 @@ def gcg_entropy_maximization(
         # For each position, find which tokens would improve the objective
         with torch.no_grad():
             improved = False
+            # Pre-compute transpose for efficiency
+            embed_weights_T = embed_weights.T
             
             # Iterate through each position in the sequence
             for pos in range(mine_len):
                 # Compute gradient-based scores for all possible token substitutions
                 # grad[pos] tells us how changing each token affects the loss
-                token_scores = grad[pos] @ embed_weights.T
+                token_scores = grad[pos] @ embed_weights_T
                 
                 # Get top-k candidate tokens (most negative gradient = best for maximization)
                 # Since we're minimizing negative entropy, we want most negative gradients

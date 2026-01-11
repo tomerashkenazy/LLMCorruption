@@ -9,6 +9,11 @@ class ContinuousTokenOptimizer(nn.Module):
     """
     A wrapper that maintains continuous embeddings that can be optimized,
     then discretizes them back to tokens.
+    
+    Args:
+        initial_token_ids: Initial discrete token IDs to start optimization
+        embed_layer: The model's embedding layer
+        vocab_size: Size of the vocabulary
     """
     def __init__(self, initial_token_ids, embed_layer, vocab_size):
         super().__init__()

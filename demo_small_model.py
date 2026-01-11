@@ -22,6 +22,10 @@ def demo_gcg_small_model(
     
     Uses GPT-2 (small) which can run on CPU for demonstration purposes.
     """
+    # Token range constants
+    MIN_SAFE_TOKEN_ID = 100
+    MAX_SAFE_TOKEN_OFFSET = 100
+    
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
     print(f"Loading small model: {model_id}")
@@ -37,7 +41,12 @@ def demo_gcg_small_model(
     
     # Initialize random tokens
     vocab_size = tokenizer.vocab_size
-    initial_tokens = torch.randint(100, vocab_size - 100, (mine_len,), device=device)
+    initial_tokens = torch.randint(
+        MIN_SAFE_TOKEN_ID, 
+        vocab_size - MAX_SAFE_TOKEN_OFFSET, 
+        (mine_len,), 
+        device=device
+    )
     
     print(f"\nInitial tokens: {initial_tokens.tolist()}")
     print(f"Initial text: '{tokenizer.decode(initial_tokens)}'")
