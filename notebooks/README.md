@@ -354,24 +354,36 @@ NUM_ITERATIONS = 5          # Full passes over all models (v9, v12)
 | **v10** | Platform compatibility | Windows/Mac support, Llama-3.2 integration |
 | **v11** | Visualization & testing | Rich plots, comprehensive baseline framework |
 | **v12** | Statistical verification | Multi-sample entropy validation, production-ready |
+| **final** | Comprehensive multi-model | 7 models × 5 iterations, complete statistics (CURRENT) |
 
 ---
 
-## Key Results (v12)
+## Key Results (Final Version)
 
-**Best Performance**:
-- Model: `meta-llama/Meta-Llama-3-8B-Instruct`
-- Entropy: **10.83 H** (92.1% of theoretical max)
-- Improvement: **+3.48 H** over best baseline (+47.3%)
-- Verification: **σ = 0.0000** (perfect stability)
+**Multi-Model Performance (7 models × 5 iterations = 35 runs)**:
 
-**Corruption Success Rate**:
-- Baseline triggers: 60-70% corruption rate
-- GCG-optimized: **95%+ corruption rate** (repetition patterns)
+| Model                         | Mean   | StdDev | Min    | Max    | Runs |
+|-------------------------------|--------|--------|--------|--------|------|
+| gpt2-large                    | 95.0%  | 1.0%   | 93.2%  | 95.6%  | 5    |
+| Qwen2-1.5B                    | 93.9%  | 1.4%   | 92.0%  | 95.3%  | 5    |
+| bloom-1b1                     | 93.8%  | 1.5%   | 91.2%  | **96.0%**  | 5    |
+| phi-2                         | 91.3%  | 0.7%   | 90.2%  | 92.1%  | 5    |
+| Meta-Llama-3-8B-Instruct      | 91.2%  | 0.5%   | 90.4%  | 91.7%  | 5    |
+| gpt-neo-1.3B                  | 90.5%  | 1.3%   | 88.0%  | 91.6%  | 5    |
+| TinyLlama-1.1B-Chat-v1.0      | 88.8%  | 1.3%   | 86.5%  | 90.3%  | 5    |
+| **OVERALL**                   | **92.1%** | **2.4%** | **86.5%** | **96.0%** | **35** |
 
-**Cross-Model Transferability**:
-- Optimized on Llama-3 → **88.7%** success on TinyLlama
-- Shows attack transferability across architectures
+**Peak Performance**:
+- Best Model: `bigscience/bloom-1b1`
+- Peak Entropy: **96.0%** of theoretical maximum
+- Most Consistent: `Meta-Llama-3-8B-Instruct` (σ = 0.5%)
+- Raw Entropy Range: 9.21 - 11.66 H
+
+**Key Insights**:
+- **Consistent High Performance**: All models achieve 88%+ entropy
+- **Cross-Architecture Success**: Works on GPT, Llama, Bloom, Qwen, Phi architectures
+- **Low Variance**: Average σ = 1.3% shows reliable optimization
+- **Production Ready**: 35 successful runs demonstrate robustness
 
 ---
 

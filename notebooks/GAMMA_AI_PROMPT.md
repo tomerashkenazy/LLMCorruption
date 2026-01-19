@@ -34,14 +34,16 @@ We developed an adversarial attack that exploits LLM vulnerability to rare/speci
 - **v9**: Evolutionary exploration with population-based strategies
 - **v10**: Platform compatibility (Windows/Linux), Llama-3.2 support
 - **v11**: Rich visualization and comprehensive baseline testing
-- **v12**: Statistical verification with Meta-Llama-3-8B-Instruct (CURRENT)
+- **v12**: Statistical verification with Meta-Llama-3-8B-Instruct
+- **final**: Comprehensive multi-model analysis (7 models × 5 iterations = 35 runs) (CURRENT)
 
-**Key Results** (v12):
-- **Best Entropy**: 10.83 H (92.1% of theoretical maximum)
-- **Improvement**: +3.48 H over best baseline (+47.3%)
-- **Verification Stability**: σ = 0.0000 (perfect deterministic forward pass)
-- **Cross-Model Transfer**: 88.7% success rate on TinyLlama
-- **Optimized Prompt**: `' Knox twitter disproportionately отношения住宅 ΑΠرسیపան smile θε crowdfunding barcode 왕โxes'`
+**Key Results** (Final Version):
+- **Overall Performance**: 92.1% mean entropy across all 35 runs
+- **Peak Performance**: 96.0% (bigscience/bloom-1b1)
+- **Best Consistency**: Meta-Llama-3-8B-Instruct (σ = 0.5%)
+- **Model Coverage**: 7 different architectures (GPT, Llama, Bloom, Qwen, Phi)
+- **Success Rate**: 100% (all 35 optimization runs achieved 86.5%+ entropy)
+- **Top 3 Models**: gpt2-large (95.0%), Qwen2-1.5B (93.9%), bloom-1b1 (93.8%)
 
 **Corruption Types Achieved**:
 - Garbage Output: Strings like `@","@",",",",","`
@@ -158,15 +160,20 @@ verified_H = mean(H₁, H₂, ..., H₁₀) ± std
 - Entropy trajectory plots
 - ✅ Presentation-ready outputs
 
-**v12 - Statistical Verification** (CURRENT)
+**v12 - Statistical Verification**
 - Multi-sample entropy validation
 - Meta-Llama-3-8B-Instruct (8B params)
 - ✅ Production-ready, research-grade
 
+**final - Comprehensive Multi-Model** (CURRENT)
+- 7 models × 5 iterations = 35 total runs
+- 92.1% overall mean, 96.0% peak
+- ✅ Complete statistical analysis
+
 **Visual Direction**:
 - Use Gamma's "Timeline" layout (horizontal progression)
 - Each version = milestone marker with checkmark/X
-- Gradient from red (v8) to green (v12) showing improvement
+- Gradient from red (v8) to gold (final) showing improvement
 
 ---
 
@@ -202,27 +209,28 @@ Verification & Testing
 ---
 
 ### **SLIDE 7: The Results - Performance Metrics**
-**Title**: 📊 Results: 92.1% of Maximum Theoretical Entropy Achieved
+**Title**: 📊 Results: 96.0% Peak, 92.1% Overall Across 7 LLMs
 
-**Content** (Three-Column Metrics):
+**Content** (Multi-Column Dashboard):
 
-**Column 1 - Best Performance**
-- Model: Meta-Llama-3-8B-Instruct
-- Entropy: **10.83 H**
-- Normalized: **92.1%**
-- Verification: σ = **0.0000** ✅
+**Overall Statistics (35 runs)**
+- Mean Performance: **92.1%**
+- Peak Performance: **96.0%** (bloom-1b1)
+- Standard Deviation: **2.4%**
+- Success Rate: **100%** (all runs > 86%)
 
-**Column 2 - Improvement Over Baselines**
-- Best baseline: 7.35 H (hallucination_1)
-- Our result: 10.83 H
-- Improvement: **+3.48 H (+47.3%)**
-- Success rate: **95%+ corruption**
+**Top Performing Models**
+1. gpt2-large: **95.0%** ± 1.0%
+2. Qwen2-1.5B: **93.9%** ± 1.4%
+3. bloom-1b1: **93.8%** ± 1.5%
+4. phi-2: **91.3%** ± 0.7%
+5. Meta-Llama-3-8B: **91.2%** ± 0.5%
 
-**Column 3 - Cross-Model Transfer**
-- Optimized on: Llama-3-8B
-- Tested on: TinyLlama-1.1B
-- Transfer success: **88.7%**
-- Proves: Architecture-agnostic attacks
+**Key Insights**
+- ✅ Works across 7 architectures
+- ✅ Consistent high performance (88-96%)
+- ✅ Low variance (most stable: Llama σ=0.5%)
+- ✅ Production-ready robustness
 
 **Visual Direction**:
 - Use Gamma's "Metrics Dashboard" layout
@@ -237,17 +245,22 @@ Verification & Testing
 
 **Content** (Side-by-Side Comparisons):
 
-**Example 1 - Repetition Loop (Meta-Llama-3-8B)**
-- **Input**: `' Knox twitter disproportionately отношения住宅 ΑΠرسی...'`
-- **Output**: `"5th 3rd 4th 2nd 1st 3rd 5th 4th 2nd 1st 3rd 5th 4th 2nd 1st..."`
-- **Entropy**: 10.16 H
-- **Corruption**: Infinite ranking pattern
+**Example 1 - Peak Performance (bloom-1b1)**
+- **Normalized Entropy**: 96.0%
+- **Output**: Highly corrupted multilingual garbage
+- **Corruption**: Maximum chaos achieved
+- **Stability**: Consistently reproducible
 
-**Example 2 - Garbage Output (TinyLlama)**
-- **Input**: (Same rare token sequence)
-- **Output**: `"                                                  "` (100 spaces)
-- **Entropy**: 8.93 H
-- **Corruption**: Empty garbage
+**Example 2 - Repetition Loop (Meta-Llama-3-8B)**
+- **Normalized Entropy**: 91.2%
+- **Output**: `"5th 3rd 4th 2nd 1st 3rd 5th 4th..."`
+- **Corruption**: Infinite ranking pattern
+- **Stability**: σ = 0.5% (most consistent)
+
+**Example 3 - Cross-Model Success (TinyLlama)**
+- **Normalized Entropy**: 88.8%
+- **Output**: Garbage spaces and broken tokens
+- **Corruption**: Proves cross-architecture transfer
 
 **Example 3 - Baseline Comparison**
 - **Normal Prompt**: "Explain quantum physics"
@@ -412,9 +425,9 @@ The presentation should follow this structure:
 2. The V6 Vulnerability problem (special character susceptibility)
 3. Attack mechanism (state collapse via rare tokens)
 4. Our methodology (GCG optimization + multi-sample verification)
-5. Evolution journey (v8 → v9 → v10 → v11 → v12)
+5. Evolution journey (v8 → v9 → v10 → v11 → v12 → final)
 6. System architecture (component pipeline)
-7. Performance results (10.83H entropy, 92.1% of max, +47.3% improvement)
+7. Performance results (92.1% overall, 96.0% peak across 7 models, 35 total runs)
 8. Example corrupted outputs (with real code blocks)
 9. Research insights (4 key findings)
 10. Live demo slide with comparison table (leave blank for manual entry)
