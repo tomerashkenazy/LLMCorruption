@@ -10,12 +10,13 @@
 - **v11 Section**: Enhanced visualization and baseline testing framework
 - **v12 Section**: Multi-sample verification with Meta-Llama-3-8B-Instruct (CURRENT VERSION)
 
-**Key highlights in v12**:
-- Best entropy: **10.83 H** (92.1% of max)
-- Improvement: **+3.48 H** (+47.3% over baseline)
-- Verification stability: **σ = 0.0000**
-- Cross-model transfer: **88.7%** success
-- Optimized prompt: `' Knox twitter disproportionately отношения住宅 ΑΠرسیპან smile θε crowdfunding barcode 왕โxes'`
+**Key highlights in final version**:
+- Peak entropy: **11.93 H** (96.0% of max) - bloom-1b1
+- Overall mean: **~92%** across 35 runs (7 models × 5 iterations)
+- Verification stability: **σ = 0.0000** (deterministic)
+- Success rate: **100%** (all runs >88% entropy)
+- Top models: bloom-1b1 (96.0%), gpt2-large (95.6%), Qwen2-1.5B (92.0%)
+- Best prompt: `'理事国ari; Mateus Saavedra_{\ sabiendo Beatles ಖರ್ಚು袁世凯ópez câm Yahya बैठकर android'`
 
 ### 2. **Gamma AI Presentation Prompt**
 **Location**: `c:\Users\anton\Desktop\Projects\LLMCorruption\notebooks\GAMMA_AI_PROMPT.md`
@@ -88,26 +89,36 @@ Before generating, you can:
 
 From your actual `results.txt`:
 
-**Best Performance (Llama-3-8B-Instruct)**:
-- Raw Entropy: 10.8281 H
-- Normalized: 92.1%
-- Verification: Mean = 10.8281 ± 0.0000
-- Improvement over best baseline: +3.4766 H (+47.3%)
+**Best Performance (bloom-1b1)**:
+- Raw Entropy: 11.93 H
+- Normalized: 96.0%
+- Verification: Mean ± 0.0000 (deterministic)
+- Largest vocabulary (250k tokens) = highest vulnerability
 
-**Baseline Comparison**:
-| Baseline | Entropy | Flags |
-|----------|---------|-------|
-| hallucination_1 | 7.35 H | N |
-| bizarre_1 | 6.89 H | GN |
-| garbage_1 | 6.05 H | GR |
-| **GCG Optimized** | **10.83 H** | **R** |
+**Top 3 Models**:
+| Model | Entropy | Normalized |
+|-------|---------|------------|
+| bloom-1b1 | 11.93 H | 96.0% |
+| gpt2-large | 10.35 H | 95.6% |
+| Qwen2-1.5B | 10.98 H | 92.0% |
 
-**Cross-Model Results**:
-- TinyLlama: 9.20 H (88.7% normalized) ← Shows transferability!
+**Baseline vs Optimized (Meta-Llama-3-8B example)**:
+| Test | Entropy | Improvement |
+|------|---------|-------------|
+| hallucination_1 (baseline) | 7.35 H | - |
+| bizarre_1 (baseline) | 6.89 H | - |
+| **GCG Optimized** | **10.68 H** | **+3.33 H** |
+
+**All Models Summary**:
+- Average baseline: ~55% of max entropy
+- Average optimized: ~92% of max entropy
+- Average improvement: +37 percentage points
 
 **Corruption Examples**:
-- Llama-3: `"5th 3rd 4th 2nd 1st..."` (repetition loop)
-- TinyLlama: `"                "` (100 spaces)
+- bloom-1b1: Hindi nonsense text (ठेका का, या के साथ...)
+- Llama-3: Repetition loop (상. 0 0 0 0 0 0...)
+- gpt-neo: Alphabet sequence (a,b,c,d,e,f,g,h,i,j,k,l...)
+- Qwen2: Number sequence (123456789012345678...)
 
 ---
 
@@ -123,9 +134,9 @@ From your actual `results.txt`:
 - Highlight how v12 is production-ready (unlike v8's limitations)
 
 ### For Slide 7 (Results):
-- Lead with the big number: **92.1%** of theoretical maximum
-- Contextualize: "This is close to perfect chaos"
-- Show the improvement: **+47.3%** over baselines
+- Lead with the big number: **96.0%** peak (bloom-1b1)
+- Contextualize: "This is near-perfect chaos across 7 different model architectures"
+- Show the breadth: **35 optimization runs**, all achieving >88%
 
 ### For Slide 10 (Live Demo):
 **CRITICAL**: This is your showstopper moment!
@@ -181,7 +192,7 @@ From your actual `results.txt`:
 Your presentation will be successful if:
 1. ✅ Audience understands the V6 vulnerability (Slide 2-3)
 2. ✅ They see the evolution of your approach (Slide 5)
-3. ✅ They're impressed by the 92.1% result (Slide 7)
+3. ✅ They're impressed by the 96.0% peak result (Slide 7)
 4. ✅ They're engaged during the live demo (Slide 10)
 5. ✅ They ask informed questions (shows they understood)
 
