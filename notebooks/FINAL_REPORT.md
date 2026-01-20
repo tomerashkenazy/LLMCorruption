@@ -274,15 +274,17 @@ We presented Token Mines, a framework for systematically exploiting the V6 vulne
 
 ## References
 
-[1] Zou, A., et al. "Universal and Transferable Adversarial Attacks on Aligned Language Models." arXiv:2307.15043 (2023).
+[1] Ayzenshteyn, A. (2025). Cloak, Honey, Trap: Proactive defenses against LLM agents. In Proceedings of the 34th USENIX Security Symposium (USENIX Security ’25). USENIX Association.
 
-[2] Wei, J., et al. "Jailbroken: How Does LLM Safety Training Fail?" NeurIPS (2023).
+[2] Zou, A., et al. "Universal and Transferable Adversarial Attacks on Aligned Language Models." arXiv:2307.15043 (2023).
 
-[3] Geiping, J., et al. "Coercing LLMs to do and reveal (almost) anything." arXiv:2402.14020 (2024).
+[3] Wei, J., et al. "Jailbroken: How Does LLM Safety Training Fail?" NeurIPS (2023).
 
-[4] Carlini, N., et al. "Are aligned neural networks adversarially aligned?" arXiv:2306.15447 (2023).
+[4] Geiping, J., et al. "Coercing LLMs to do and reveal (almost) anything." arXiv:2402.14020 (2024).
 
-[5] Touvron, H., et al. "Llama 2: Open Foundation and Fine-Tuned Chat Models." arXiv:2307.09288 (2023).
+[5] Carlini, N., et al. "Are aligned neural networks adversarially aligned?" arXiv:2306.15447 (2023).
+
+[6] Touvron, H., et al. "Llama 2: Open Foundation and Fine-Tuned Chat Models." arXiv:2307.09288 (2023).
 
 ---
 
