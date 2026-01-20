@@ -46,49 +46,49 @@ Unlike prior work that uses simple entropy thresholds, we employ a weighted ense
 
 **Method 1: Embedding Norm Analysis**
 
-We extract the embedding matrix $W \in \mathbb{R}^{V \times d}$ where $V$ is vocabulary size and $d$ is embedding dimension. For each token $v$, we compute:
+We extract the embedding matrix W ∈ ℝ^(V×d) where V is vocabulary size and d is embedding dimension. For each token v, we compute:
 
-$$\text{norm\_score}(v) = \left| \frac{\|W_v\|_2 - \mu_{\text{norm}}}{\sigma_{\text{norm}}} \right|$$
+**Norm Score(v)** = | (‖Wᵥ‖₂ − μₙₒᵣₘ) / σₙₒᵣₘ |
 
-$$\text{var\_score}(v) = \left| \frac{\text{Var}(W_v) - \mu_{\text{var}}}{\sigma_{\text{var}}} \right|$$
+**Var Score(v)** = | (Var(Wᵥ) − μᵥₐᵣ) / σᵥₐᵣ |
 
-The embedding rarity score combines these z-scores: $R_{\text{embed}}(v) = \text{norm\_score}(v) + 0.5 \times \text{var\_score}(v)$
+The embedding rarity score combines these z-scores: **R_embed(v) = NormScore(v) + 0.5 × VarScore(v)**
 
 **Method 2: Direct Entropy Measurement**
 
-We directly measure which tokens induce high output entropy. For efficiency, we use smart sampling: selecting the top 1,000 tokens by embedding rarity plus 1,000 random tokens for exploration. For each sampled token $v$:
+We directly measure which tokens induce high output entropy. For efficiency, we use smart sampling: selecting the top 1,000 tokens by embedding rarity plus 1,000 random tokens for exploration. For each sampled token v:
 
-$$H_M(v) = -\sum_{i=1}^{V} p_i(v) \log p_i(v)$$
+**H(v) = −Σ pᵢ(v) log pᵢ(v)**
 
-where $p(v) = \text{softmax}(M(v))$ is the output distribution when feeding token $v$.
+where p(v) = softmax(M(v)) is the output distribution when feeding token v.
 
 **Method 3: Embedding Space Isolation**
 
-Tokens isolated in embedding space (far from other tokens) are likely under-trained. We compute cosine similarity to the $k$-nearest neighbors:
+Tokens isolated in embedding space (far from other tokens) are likely under-trained. We compute cosine similarity to the k-nearest neighbors:
 
-$$\text{isolation}(v) = 1 - \frac{1}{k}\sum_{u \in \text{kNN}(v)} \cos(W_v, W_u)$$
+**Isolation(v) = 1 − (1/k) Σ cos(Wᵥ, Wᵤ)** for u ∈ kNN(v)
 
 **Ensemble Scoring**
 
 The final rarity score combines all three methods:
 
-$$R(v) = \alpha \cdot \hat{R}_{\text{embed}}(v) + \beta \cdot \hat{R}_{\text{entropy}}(v) + \gamma \cdot \hat{R}_{\text{isolation}}(v)$$
+**R(v) = α · R̂_embed(v) + β · R̂_entropy(v) + γ · R̂_isolation(v)**
 
-where $\alpha=0.3$, $\beta=0.5$, $\gamma=0.2$ and $\hat{R}$ denotes min-max normalization.
+where α=0.3, β=0.5, γ=0.2 and R̂ denotes min-max normalization.
 
 ### 2.2 GCG Entropy Optimization
 
 Given the candidate pool from rare token mining, we optimize adversarial sequences using Greedy Coordinate Gradient (GCG). Our objective is to maximize output entropy:
 
-$$x^* = \arg\max_{x \in \mathcal{X}} H(M(x))$$
+**x* = argmax H(M(x))** over x ∈ X
 
-where $x$ is a sequence of $L=16$ tokens drawn from the candidate pool.
+where x is a sequence of L=16 tokens drawn from the candidate pool.
 
 **Algorithm:**
-1. Initialize sequence $x^{(0)}$ from top rare tokens
-2. For each optimization step $t = 1, \ldots, N$:
-   - Compute gradients $\nabla_x H(M(x^{(t-1)}))$ via one-hot relaxation
-   - For each position $i$, identify top-$k$ candidate replacements ($k=256$)
+1. Initialize sequence x⁽⁰⁾ from top rare tokens
+2. For each optimization step t = 1, ..., N:
+   - Compute gradients ∇ₓH(M(x⁽ᵗ⁻¹⁾)) via one-hot relaxation
+   - For each position i, identify top-k candidate replacements (k=256)
    - Evaluate candidates in batches and select the token maximizing entropy
 3. Return sequence with highest verified entropy
 
@@ -104,9 +104,9 @@ To escape local optima, we employ four exploration strategies across iterations:
 
 LLM outputs are stochastic due to temperature sampling. To ensure robust entropy measurements, we verify results across 10 independent forward passes:
 
-$$\bar{H} = \frac{1}{10}\sum_{i=1}^{10} H_i, \quad \sigma_H = \sqrt{\frac{1}{9}\sum_{i=1}^{10}(H_i - \bar{H})^2}$$
+**H̄ = (1/10) Σ Hᵢ** and **σ_H = √[(1/9) Σ(Hᵢ − H̄)²]**
 
-Importantly, we measure entropy on the **logits** (before sampling), which is deterministic. Our experiments confirm $\sigma_H = 0.0000$, proving that while generation is stochastic, entropy measurement is stable.
+Importantly, we measure entropy on the **logits** (before sampling), which is deterministic. Our experiments confirm σ_H = 0.0000, proving that while generation is stochastic, entropy measurement is stable.
 
 ---
 
@@ -141,8 +141,8 @@ Importantly, we measure entropy on the **logits** (before sampling), which is de
 - `bizarre_1`: BPE artifacts + math symbols
 
 **Metrics**: 
-- Raw entropy $H$ (in nats)
-- Normalized entropy: $H / H_{\max}$ where $H_{\max} = \log(V)$
+- Raw entropy H (in nats)
+- Normalized entropy: H / H_max where H_max = log(V)
 
 ### 3.2 Results
 
