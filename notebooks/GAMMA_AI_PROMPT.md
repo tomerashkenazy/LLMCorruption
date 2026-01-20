@@ -38,12 +38,12 @@ We developed an adversarial attack that exploits LLM vulnerability to rare/speci
 - **final**: Comprehensive multi-model analysis (7 models × 5 iterations = 35 runs) (CURRENT)
 
 **Key Results** (Final Version):
-- **Overall Performance**: 92.1% mean entropy across all 35 runs
+- **Overall Performance**: ~92% mean entropy across all 35 runs
 - **Peak Performance**: 96.0% (bigscience/bloom-1b1)
-- **Best Consistency**: Meta-Llama-3-8B-Instruct (σ = 0.5%)
-- **Model Coverage**: 7 different architectures (GPT, Llama, Bloom, Qwen, Phi)
-- **Success Rate**: 100% (all 35 optimization runs achieved 86.5%+ entropy)
-- **Top 3 Models**: gpt2-large (95.0%), Qwen2-1.5B (93.9%), bloom-1b1 (93.8%)
+- **Best Consistency**: All models verified with σ = 0.0000
+- **Model Coverage**: 7 different architectures (GPT, Llama, Bloom, Qwen, Phi, Neo)
+- **Success Rate**: 100% (all 35 optimization runs achieved >88% entropy)
+- **Top 3 Models**: bloom-1b1 (96.0%), gpt2-large (95.6%), Qwen2-1.5B (92.0%)
 
 **Corruption Types Achieved**:
 - Garbage Output: Strings like `@","@",",",",","`
@@ -167,7 +167,7 @@ verified_H = mean(H₁, H₂, ..., H₁₀) ± std
 
 **final - Comprehensive Multi-Model** (CURRENT)
 - 7 models × 5 iterations = 35 total runs
-- 92.1% overall mean, 96.0% peak
+- 92% overall mean, 96.0% peak
 - ✅ Complete statistical analysis
 
 **Visual Direction**:
@@ -209,28 +209,28 @@ Verification & Testing
 ---
 
 ### **SLIDE 7: The Results - Performance Metrics**
-**Title**: 📊 Results: 96.0% Peak, 92.1% Overall Across 7 LLMs
+**Title**: 📊 Results: 96.0% Peak, ~92% Overall Across 7 LLMs
 
 **Content** (Multi-Column Dashboard):
 
 **Overall Statistics (35 runs)**
-- Mean Performance: **92.1%**
+- Mean Performance: **~92%**
 - Peak Performance: **96.0%** (bloom-1b1)
-- Standard Deviation: **2.4%**
-- Success Rate: **100%** (all runs > 86%)
+- Verification Stability: **σ = 0.0000** (deterministic)
+- Success Rate: **100%** (all runs > 88%)
 
 **Top Performing Models**
-1. gpt2-large: **95.0%** ± 1.0%
-2. Qwen2-1.5B: **93.9%** ± 1.4%
-3. bloom-1b1: **93.8%** ± 1.5%
-4. phi-2: **91.3%** ± 0.7%
-5. Meta-Llama-3-8B: **91.2%** ± 0.5%
+1. bloom-1b1: **96.0%** (largest vocab: 250k tokens)
+2. gpt2-large: **95.6%**
+3. Qwen2-1.5B: **92.0%**
+4. phi-2: **91.1%**
+5. Meta-Llama-3-8B: **90.8%**
 
 **Key Insights**
 - ✅ Works across 7 architectures
-- ✅ Consistent high performance (88-96%)
-- ✅ Low variance (most stable: Llama σ=0.5%)
-- ✅ Production-ready robustness
+- ✅ Consistent high performance (90-96%)
+- ✅ Deterministic entropy verification (σ=0.0000)
+- ✅ Larger vocabulary = higher vulnerability
 
 **Visual Direction**:
 - Use Gamma's "Metrics Dashboard" layout
@@ -360,7 +360,7 @@ Knox twitter disproportionately отношения住宅 ΑΠรسیპან sm
 ### Transitions & Animations:
 - Slide transitions: "Fade" or "Slide from Right"
 - Element reveals: Sequential build for multi-point slides
-- Emphasis: Highlight key numbers (10.83 H, 92.1%, +47.3%)
+- Emphasis: Highlight key numbers (11.93 H, 96.0%, +37%)
 
 ### Accessibility:
 - High contrast text (white on dark, or dark on light)
@@ -385,7 +385,7 @@ Knox twitter disproportionately отношения住宅 ΑΠรسیპან sm
 
 **Embrace**:
 - ✅ Visual metaphors ("Token Mines", "State Collapse", "Vocabulary Edges")
-- ✅ Quantified claims ("92.1%", "+47.3%", "σ = 0.0000")
+- ✅ Quantified claims ("96.0%", "+37%", "σ = 0.0000")
 - ✅ Real examples (show actual corrupted outputs)
 - ✅ Storytelling arc (problem → journey → solution → results → demo)
 
@@ -407,7 +407,7 @@ Knox twitter disproportionately отношения住宅 ΑΠรسیპან sm
 **Success Criteria**:
 - ✅ Clear narrative arc (problem → solution → results)
 - ✅ Balance of technical depth and accessibility
-- ✅ Impressive quantified results (92.1%, +47.3%, σ=0.0000)
+- ✅ Impressive quantified results (96.0% peak, +37% improvement, σ=0.0000)
 - ✅ Visual appeal (charts, comparisons, examples)
 - ✅ Interactive element (live demo slide)
 
@@ -427,7 +427,7 @@ The presentation should follow this structure:
 4. Our methodology (GCG optimization + multi-sample verification)
 5. Evolution journey (v8 → v9 → v10 → v11 → v12 → final)
 6. System architecture (component pipeline)
-7. Performance results (92.1% overall, 96.0% peak across 7 models, 35 total runs)
+7. Performance results (~92% overall, 96.0% peak across 7 models, 35 total runs)
 8. Example corrupted outputs (with real code blocks)
 9. Research insights (4 key findings)
 10. Live demo slide with comparison table (leave blank for manual entry)
@@ -442,7 +442,7 @@ Use dark theme, tech styling, and include:
 - Component diagram for architecture
 - Table with empty cells for live demo results
 
-Target audience: Students in Offensive AI course. Tone: Academic but engaging, visual storytelling, quantified results. Emphasize the 92.1% achievement, multi-sample verification innovation, and cross-model transferability.
+Target audience: Students in Offensive AI course. Tone: Academic but engaging, visual storytelling, quantified results. Emphasize the 96.0% peak achievement, multi-sample verification innovation, and cross-model transferability.
 ```
 
 ---
