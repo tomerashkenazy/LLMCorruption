@@ -146,11 +146,10 @@ Importantly, we measure entropy on the **logits** (before sampling), which is de
 
 ### 3.2 Results
 
-**[FIGURE 1: Model Vulnerability Ranking - Stacked Bar Chart]**
-*Caption: Comparison of baseline (red) vs GCG-optimized (green) entropy across all 7 models, sorted by total vulnerability. The stacked bars show baseline entropy and the additional gain from GCG optimization.*
-
 <img width="1189" height="790" alt="image" src="https://github.com/user-attachments/assets/f214dc82-b88d-46e1-be8b-4f7cd192c461" />
 
+**[FIGURE 1: Model Vulnerability Ranking - Stacked Bar Chart]**
+*Caption: Comparison of baseline (red) vs GCG-optimized (green) entropy across all 7 models, sorted by total vulnerability. The stacked bars show baseline entropy and the additional gain from GCG optimization.*
 
 ---
 
@@ -175,10 +174,10 @@ Importantly, we measure entropy on the **logits** (before sampling), which is de
 | #6 | Meta-Llama-3-8B | 62.5% | 90.8% | +28.3% |
 | #7 | TinyLlama-1.1B | 58.7% | 90.3% | +31.6% |
 
+<img width="614" height="608" alt="image" src="https://github.com/user-attachments/assets/47df34f8-a8e6-4786-861f-49088b6945cc" />
+
 **[FIGURE 2: Entropy Optimization Trajectory]**
 *Caption: Entropy progression during GCG optimization for representative models, showing convergence behavior across 35 steps.*
-
-<img width="614" height="608" alt="image" src="https://github.com/user-attachments/assets/47df34f8-a8e6-4786-861f-49088b6945cc" />
 
 
 ---
@@ -202,10 +201,10 @@ This prompt achieved 96.0% normalized entropy on bloom-1b1, containing tokens fr
 
 ### 3.3 Corruption Examples
 
+<img width="797" height="225" alt="image" src="https://github.com/user-attachments/assets/3b4c5ff2-ce99-4bdc-a67f-be5876c5f86d" />
+
 **[FIGURE 3: Example Corrupted Outputs]**
 *Caption: Representative outputs showing different corruption types: (a) repetition loop, (b) nonsense generation, (c) alphabet sequence.*
-
-<img width="797" height="225" alt="image" src="https://github.com/user-attachments/assets/3b4c5ff2-ce99-4bdc-a67f-be5876c5f86d" />
 
 ---
 
