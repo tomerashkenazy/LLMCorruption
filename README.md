@@ -1,41 +1,86 @@
-# LLMCorruption
+# Token Mines: Rare-Token Corruption Attacks
 
-Offensive AI project in LLM Corruption - Perturbation that generates a sequence of tokens which causes an LLM to output hallucinations or non-sense when trying to read some text.
+This repository contains a modular, reproducible implementation of the Token Mines pipeline from the workshop notebook. It discovers rare tokens, optimizes adversarial suffixes with GCG, and validates corruption using deterministic entropy metrics and heuristic-first classification.
 
-## Overview
+## What This Project Does
 
-This project implements GCG (Greedy Coordinate Gradient) based attacks to find adversarial token sequences that maximize entropy in LLM outputs, potentially causing hallucinations and unpredictable behavior.
+- Mines rare tokens using embedding statistics and entropy measurements.
+- Optimizes adversarial token sequences via Greedy Coordinate Gradient (GCG).
+- Validates outputs with entropy metrics and corruption classification.
+- Runs end-to-end from a single `main.py` entrypoint.
 
-## Quick Start
+## Installation
 
 ```bash
-# Install dependencies
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-
-# Run continuous optimizer (recommended)
-python gcg_optimizer_continuous.py
-
-# Run discrete optimizer (alternative)
-python gcg_entropy_optimizer.py
 ```
 
-## Scripts
+If you plan to run with gated HuggingFace models, set `HUGGINGFACE_TOKEN` and pass `--model-id`.
 
-- **`gcg_optimizer_continuous.py`**: Continuous optimization using Adam optimizer (recommended)
-- **`gcg_entropy_optimizer.py`**: Discrete token swapping with gradient guidance
+## Run The Experiment
 
-See [USAGE.md](USAGE.md) for detailed documentation.
+```bash
+python main.py --mock
+```
 
-## How It Works
+For a real model:
 
-1. Initialize a random sequence of tokens (the "mine")
-2. Use gradient-based optimization to maximize entropy of next-token predictions
-3. Higher entropy = more chaotic/unpredictable model behavior
-4. Result: adversarial token sequences that corrupt LLM outputs
+```bash
+python main.py --model-id gpt2 --adversarial-length 20 --num-steps 200
+```
 
-## Requirements
+Outputs are saved to `results.json` by default.
 
-- Python 3.8+
-- PyTorch 2.0+
-- Transformers 4.30+
-- GPU recommended (16GB+ VRAM for Llama-3-8B)
+## Run Tests
+
+```bash
+pytest -q
+```
+
+Tests are deterministic and run on a small mock model to avoid external downloads.
+
+## Using The Code
+
+Generate rare-token payloads:
+
+```python
+from rare_token_miner import RareTokenMiner
+from utils.modeling import load_mock_model
+
+model, tokenizer = load_mock_model(device="cpu")
+miner = RareTokenMiner(model, tokenizer, device="cpu")
+payloads = miner.generate_payloads()
+```
+
+Run GCG optimization:
+
+```python
+from gcg import GCGEntropyOptimizer
+from utils.modeling import load_mock_model
+
+model, tokenizer = load_mock_model(device="cpu")
+optimizer = GCGEntropyOptimizer(model, tokenizer, device="cpu")
+result = optimizer.optimize(length=12, num_steps=50, prefix_text="Translate:")
+print(result["best_text"])
+```
+
+Classify an output:
+
+```python
+from llm_validation import CorruptionClassifier
+
+classifier = CorruptionClassifier(use_llm=False)
+classification = classifier.classify_response("Some output text")
+```
+
+## Repository Structure
+
+- `main.py` Main experiment entrypoint
+- `rare_token_miner.py` Rare token mining + payload generation
+- `gcg.py` GCG entropy optimizer
+- `llm_validation.py` Corruption classifier (heuristics with optional LLM backup)
+- `utils/` Shared utilities (entropy, IO, mock model, model loading)
+- `tests/` Pytest suite with fast, deterministic tests
+- `notebooks/` Original research notebooks (reference only)
