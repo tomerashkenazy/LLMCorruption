@@ -5,7 +5,10 @@ __pycache__/
 
 # C extensions
 *.so
+
 *.tex
+gpraphs.py
+.vscode
 
 # Distribution / packaging
 .Python
