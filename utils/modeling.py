@@ -1,5 +1,6 @@
 """Model loading and generation helpers."""
 
+import inspect
 from typing import Tuple
 
 import torch
@@ -10,13 +11,16 @@ from .mock_model import MockModel, MockTokenizer
 def load_model_and_tokenizer(
     model_id: str,
     device: str,
-    dtype: torch.dtype = torch.float16,
+    dtype: torch.dtype = None,
 ) -> Tuple[object, object]:
     """Load a HuggingFace model/tokenizer."""
     try:
         from transformers import AutoModelForCausalLM, AutoTokenizer
     except ImportError as exc:
         raise RuntimeError("transformers is required for non-mock models") from exc
+
+    if dtype is None:
+        dtype = torch.float16 if device == "cuda" else torch.float32
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     if tokenizer.pad_token is None:
@@ -56,8 +60,13 @@ def generate_text(model, tokenizer, prompt: str, max_new_tokens: int = 50, tempe
         temperature=temperature,
         do_sample=True,
         pad_token_id=getattr(tokenizer, "eos_token_id", 0),
-        attention_mask=attention_mask,  # Always pass attention_mask if available
     )
+    if attention_mask is not None:
+        try:
+            if "attention_mask" in inspect.signature(model.generate).parameters:
+                generate_kwargs["attention_mask"] = attention_mask
+        except (TypeError, ValueError):
+            pass
 
     outputs = model.generate(input_ids, **generate_kwargs)
     return tokenizer.decode(outputs[0], skip_special_tokens=True)
